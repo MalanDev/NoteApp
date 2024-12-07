@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">NoteApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="type_content">Type Content</string>
+    <string name="type_title">Type Title</string>
+    <string name="title">Title</string>
+    <string name="content">Content</string>
+</resources>
