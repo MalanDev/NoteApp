@@ -2,11 +2,14 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.devtools.ksp)
+    alias(libs.plugins.androidx.navigation.safeargs.kotlin)
 }
 
 android {
     namespace = "lk.malanadev.noteapp"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "lk.malanadev.noteapp"
@@ -48,15 +51,29 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.room.common)
-    implementation(libs.androidx.room.ktx)
+
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+//    implementation(libs.androidx.navigation.args.plugin)
+
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation(libs.dagger.hilt.android)
-    implementation(libs.dagger.hilt.android.compiler)
+    //Room
+    implementation(libs.androidx.room.common)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    annotationProcessor(libs.androidx.room.compiler)
 
+    //Dagger-hilt
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.android.compiler)
+
+}
+
+kapt {
+    correctErrorTypes = true
 }

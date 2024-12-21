@@ -21,4 +21,8 @@ class NoteRepositoryImpl(private val noteDao: NoteDao):NoteRepository {
     override fun getNotes(): LiveData<List<NoteEntity>> {
       return noteDao.getNotes()
     }
+
+    override suspend fun getNoteById(noteId: Int): NoteEntity {
+        return noteDao.getNoteById(noteId)
+    }
 }

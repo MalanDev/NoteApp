@@ -6,4 +6,6 @@
     <string name="type_title">Type Title</string>
     <string name="title">Title</string>
     <string name="content">Content</string>
+    <string name="update">Update</string>
+    <string name="add">Add</string>
 </resources>

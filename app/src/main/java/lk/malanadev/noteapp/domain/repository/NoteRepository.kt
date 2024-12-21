@@ -12,4 +12,6 @@ interface NoteRepository {
     suspend fun deleteNote(note: NoteEntity)
 
     fun getNotes(): LiveData<List<NoteEntity>>
+
+    suspend fun getNoteById(noteId:Int): NoteEntity
 }

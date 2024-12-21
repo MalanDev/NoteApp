@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import lk.malanadev.noteapp.R
@@ -33,10 +35,14 @@ class MainFragment : Fragment() {
     ): View {
         val binding = FragmentMainBinding.inflate(inflater, container, false)
 
+        val activity = requireActivity() as AppCompatActivity
+        activity.supportActionBar?.setDisplayHomeAsUpEnabled(false)
+
         adapter = NoteAdapter(onEdit = {
-
+            val navigation = MainFragmentDirections.actionMainFragmentToAddUpdateFragment(it.id)
+            findNavController().navigate(navigation)
         }, onDelete = {
-
+            viewModel.deleteNote(it)
         })
 
         viewModel.notes.observe(viewLifecycleOwner){notes->
@@ -49,7 +55,7 @@ class MainFragment : Fragment() {
 
 
         binding.fabAdd.setOnClickListener{
-
+            findNavController().navigate(R.id.action_mainFragment_to_addUpdateFragment)
         }
 
 

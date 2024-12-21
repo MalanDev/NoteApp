@@ -3,6 +3,7 @@ package lk.malanadev.noteapp.presentation.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.*
@@ -26,6 +27,15 @@ class NoteAdapter(
         fun bind(noteEntity: NoteEntity, onEdit: (NoteEntity) -> Unit, onDelete: (NoteEntity) -> Unit){
             itemView.findViewById<TextView>(R.id.txtTitle).text = noteEntity.title
             itemView.findViewById<TextView>(R.id.txtContent).text = noteEntity.content
+
+            itemView.findViewById<ImageView>(R.id.btnDelete).setOnClickListener {
+                onDelete(noteEntity)
+            }
+
+            itemView.rootView.setOnClickListener {
+                onEdit(noteEntity)
+            }
+
         }
     }
 

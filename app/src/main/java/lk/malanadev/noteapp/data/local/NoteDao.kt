@@ -22,4 +22,7 @@ interface NoteDao {
 
     @Query("SELECT * FROM notes ORDER BY id")
     fun getNotes():LiveData<List<NoteEntity>>
+
+    @Query("SELECT * FROM notes WHERE id = :noteId")
+    suspend fun getNoteById(noteId:Int):NoteEntity
 }

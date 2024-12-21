@@ -11,16 +11,20 @@
         android:label="Notes"
         tools:layout="@layout/fragment_main" >
         <action
-            android:id="@+id/action_mainFragment_to_addUpdateFragment2"
-            app:destination="@id/addUpdateFragment2" />
+            android:id="@+id/action_mainFragment_to_addUpdateFragment"
+            app:destination="@id/addUpdateFragment" />
     </fragment>
     <fragment
-        android:id="@+id/addUpdateFragment2"
+        android:id="@+id/addUpdateFragment"
         android:name="lk.malanadev.noteapp.presentation.fragment.AddUpdateFragment"
         android:label="Add/Update"
         tools:layout="@layout/fragment_add_update" >
         <action
-            android:id="@+id/action_addUpdateFragment2_to_mainFragment"
+            android:id="@+id/action_addUpdateFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+        <argument
+            android:name="noteId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 </navigation>
