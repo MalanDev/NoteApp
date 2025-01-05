@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="lk.malanadev.noteapp" />
+                  <option name="mobileSdkAppId" value="1:95068613260:android:4c2cec685a2f40b1ca69a9" />
+                  <option name="projectId" value="noteapp-2689c" />
+                  <option name="projectNumber" value="95068613260" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

@@ -6,4 +6,5 @@ plugins {
     alias(libs.plugins.kotlin.kapt) apply false
     alias(libs.plugins.devtools.ksp) apply false
     alias(libs.plugins.androidx.navigation.safeargs.kotlin) apply false
+    alias(libs.plugins.google.services) apply false
 }

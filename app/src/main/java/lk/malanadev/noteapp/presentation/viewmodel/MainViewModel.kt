@@ -1,5 +1,7 @@
 package lk.malanadev.noteapp.presentation.viewmodel
 
+import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,32 +10,57 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import lk.malanadev.noteapp.data.remote.NetworkResult
 import lk.malanadev.noteapp.domain.model.NoteEntity
 import lk.malanadev.noteapp.domain.repository.NoteRepository
+import lk.malanadev.noteapp.domain.repository.NoteRepositoryFirebase
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor (
-    private val noteRepository: NoteRepository
+    private val noteRepository: NoteRepository,
+    private val noteRepositoryFirebase: NoteRepositoryFirebase
 ) :ViewModel() {
 
-    val notes: LiveData<List<NoteEntity>> = noteRepository.getNotes()
+//    val notes: LiveData<List<NoteEntity>> = noteRepository.getNotes()
 
-    val selectedNote = MutableLiveData<NoteEntity>()
+    val notes = MutableLiveData<NetworkResult<List<NoteEntity>>>()
 
-    fun addNote(note:NoteEntity){
+    val selectedNote = MutableLiveData<NetworkResult<NoteEntity?>>()
+
+    val addedNote = MutableLiveData<NetworkResult<NoteEntity?>>()
+
+    val updatedNote = MutableLiveData<NetworkResult<NoteEntity?>>()
+
+    val deletedNote = MutableLiveData<NetworkResult<String>>()
+
+    fun getNotes(){
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                noteRepository.addNote(note)
+            withContext(Dispatchers.IO){
+                noteRepositoryFirebase.getNotes {result->
+                   notes.postValue(result)
+                }
             }
         }
     }
 
-    fun getNoteById(noteId:Int){
+    fun addNote(note:NoteEntity){
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-               val note =  noteRepository.getNoteById(noteId)
-                selectedNote.postValue(note)
+                noteRepositoryFirebase.addNote(note,{result->
+                    addedNote.postValue(result)
+                })
+            }
+        }
+    }
+
+    fun getNoteById(firebaseId:String){
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+               noteRepositoryFirebase.getNoteById(firebaseId,{result ->
+                   selectedNote.postValue(result)
+               })
+
             }
         }
     }
@@ -41,7 +68,9 @@ class MainViewModel @Inject constructor (
     fun updateNote(note:NoteEntity){
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                noteRepository.updateNote(note)
+                noteRepositoryFirebase.updateNote(note,{result->
+                    updatedNote.postValue(result)
+                })
             }
 
         }
@@ -53,7 +82,9 @@ class MainViewModel @Inject constructor (
     fun deleteNote(note:NoteEntity){
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                noteRepository.deleteNote(note)
+                noteRepositoryFirebase.deleteNote(note,{result ->
+                  deletedNote.postValue(result)
+                })
             }
         }
     }

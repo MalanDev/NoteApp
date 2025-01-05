@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import lk.malanadev.noteapp.R
+import lk.malanadev.noteapp.data.remote.NetworkResult
 import lk.malanadev.noteapp.databinding.FragmentAddUpdateBinding
 import lk.malanadev.noteapp.domain.model.NoteEntity
 import lk.malanadev.noteapp.presentation.viewmodel.MainViewModel
@@ -59,23 +60,77 @@ class AddUpdateFragment : Fragment() {
 
         })
 
-        if(args.noteId != 0){
+        if(args.firebaseId != "0"){
             binding.btnUpdate.setText("Update")
-            viewModel.getNoteById(args.noteId)
+            viewModel.getNoteById(args.firebaseId)
         }else{
             binding.btnUpdate.setText("Add")
         }
 
-        viewModel.selectedNote.observe(viewLifecycleOwner){
-            binding.txtTitle.setText(it.title.toString())
-            binding.txtContent.setText(it.content.toString())
-            currentNote = it
+        viewModel.selectedNote.observe(viewLifecycleOwner){result->
+            when(result){
+                is NetworkResult.Success->{
+                    binding.addUpProgreeBasr.visibility = View.GONE
+                    result.data?.let {
+                        binding.txtTitle.setText(it.title.toString())
+                        binding.txtContent.setText(it.content.toString())
+                        currentNote = it
+                    }
+                }
+                is NetworkResult.Error ->{
+                    binding.addUpProgreeBasr.visibility = View.GONE
+                    Toast.makeText(context,result.message,Toast.LENGTH_SHORT).show()
+                }
+                is NetworkResult.Loading ->{
+
+                }
+
+            }
+
+        }
+
+        viewModel.addedNote.observe(viewLifecycleOwner){result->
+            when(result){
+                is NetworkResult.Success->{
+                    binding.addUpProgreeBasr.visibility = View.GONE
+                    Toast.makeText(context,"Successfully Added!",Toast.LENGTH_LONG).show()
+                    binding.txtTitle.setText("")
+                    binding.txtContent.setText("")
+                }
+                is NetworkResult.Error ->{
+                    binding.addUpProgreeBasr.visibility = View.GONE
+                    Toast.makeText(context,result.message,Toast.LENGTH_SHORT).show()
+                }
+                is NetworkResult.Loading ->{
+
+                }
+
+            }
+
+        }
+
+        viewModel.updatedNote.observe(viewLifecycleOwner){result->
+            when(result){
+                is NetworkResult.Success->{
+                    binding.addUpProgreeBasr.visibility = View.GONE
+                    Toast.makeText(context,"Successfully Updated!",Toast.LENGTH_LONG).show()
+
+                }
+                is NetworkResult.Error ->{
+                    binding.addUpProgreeBasr.visibility = View.GONE
+                    Toast.makeText(context,result.message,Toast.LENGTH_SHORT).show()
+                }
+                is NetworkResult.Loading ->{
+
+                }
+
+            }
+
         }
 
 
-
-
         binding.btnUpdate.setOnClickListener {
+            binding.addUpProgreeBasr.visibility = View.VISIBLE
             if (binding.txtTitle.text.isEmpty()) {
                 Toast.makeText(context, "Please add title", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
@@ -87,20 +142,20 @@ class AddUpdateFragment : Fragment() {
             }
 
 
-            if (args.noteId == 0) {
+            if (args.firebaseId == "0") {
                 currentNote = NoteEntity(
                     title = binding.txtTitle.text.toString(),
                     content = binding.txtContent.text.toString()
                 )
                 viewModel.addNote(currentNote)
-                Toast.makeText(context,"Succesfully Added!",Toast.LENGTH_LONG).show()
+
             } else {
                 currentNote.apply {
                     title = binding.txtTitle.text.toString()
                     content = binding.txtContent.text.toString()
                 }
                 viewModel.updateNote(currentNote)
-                Toast.makeText(context,"Succesfully Updated!",Toast.LENGTH_LONG).show()
+
             }
 
 
