@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "95068613260",
+    "project_id": "noteapp-2689c",
+    "storage_bucket": "noteapp-2689c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:95068613260:android:4c2cec685a2f40b1ca69a9",
+        "android_client_info": {
+          "package_name": "lk.malanadev.noteapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxkpI1xN3G-66faCVRZ8mNzj6cY5FVBas"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
